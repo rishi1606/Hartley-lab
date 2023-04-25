@@ -91,3 +91,29 @@ app.delete('/users/:id', (req, res) => {
             res.status(500).send(err);
         });
 });
+
+
+app.get('/users', (req, res) => {
+    const filters = {};
+    if (req.query.firstName) {
+        filters.firstName = req.query.firstName;
+    }
+    if (req.query.lastName) {
+        filters.lastName = req.query.lastName;
+    }
+    if (req.query.email) {
+        filters.email = req.query.email;
+    }
+    if (req.query.phone) {
+        filters.phone = req.query.phone;
+    }
+
+    User.find(filters, (err, users) => {
+        if (err) {
+            console.log(err);
+            res.status(500).send(err);
+        } else {
+            res.status(200).send(users);
+        }
+    });
+});
